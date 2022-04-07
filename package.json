@@ -1,0 +1,50 @@
+{
+  "name": "aws-credentials-action",
+  "version": "1.0.0",
+  "description": "This action allows you to assume the correct role for a project",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "build": "esbuild src/index.ts src/cleanup.ts --bundle --platform=node --target=node12 --outdir=dist --sourcemap=inline --legal-comments=external --minify",
+    "test": "jest --runInBand",
+    "test:dev": "jest --runInBand --watchAll",
+    "all": "yarn -s run lint && yarn -s run test && yarn -s run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClimatePartner/aws-credentials-action.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "JavaScript"
+  ],
+  "bugs": {
+    "url": "https://github.com/ClimatePartner/aws-credentials-for-pipeline-action/issues"
+  },
+  "homepage": "https://github.com/ClimatePartner/aws-credentials-for-pipeline-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0",
+    "aws-actions-configure-aws-credentials": "https://github.com/aws-actions/configure-aws-credentials.git#v1.6.1",
+    "aws-sdk": "^2.1097.0",
+    "source-map-support": "^0.5.21",
+    "wildcard-match": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.17.7",
+    "@jest/types": "^27.5.1",
+    "@types/jest": "27.0.1",
+    "@types/node": "16.6.2",
+    "@typescript-eslint/eslint-plugin": "4.29.2",
+    "@typescript-eslint/parser": "4.29.2",
+    "esbuild": "^0.14.27",
+    "esbuild-jest": "^0.5.0",
+    "eslint": "7.32.0",
+    "eslint-plugin-jest": "24.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "27.0.6",
+    "prettier": "^2.6.0",
+    "typescript": "4.3.5"
+  }
+}

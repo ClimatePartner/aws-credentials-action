@@ -1,0 +1,24 @@
+# action.yml
+name: "AWS Credentials"
+description: "Gets the current environment and provides temporary credentials through assume process"
+inputs:
+  config:
+    description: A JSON configuration of credentials mapper
+    required: true
+  account:
+    description: AWS account name
+    required: false
+  multi-account:
+    description: Indicates whether cross account role should be assumed
+    default: "false"
+    required: false
+  name:
+    description: The name of the mapping
+    required: false
+outputs:
+  aws-account-id:
+    description: "The AWS account ID for the provided credential"
+runs:
+  using: "node12"
+  main: "dist/index.js"
+  post: "dist/cleanup.js"
