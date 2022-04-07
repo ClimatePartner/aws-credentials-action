@@ -1,7 +1,6 @@
 const mockRunConfigureAwsCredentials = jest.fn()
 
 const mockGetIDToken = jest.fn().mockResolvedValue('my-web-identity-token')
-const mockGetInput = jest.fn()
 const mockSetFailed = jest.fn()
 const mockExportVariable = jest.fn()
 
@@ -33,7 +32,7 @@ jest.mock('aws-sdk', () => ({
 
 jest.mock('@actions/core', () => ({
   getIDToken: (...args: unknown[]) => mockGetIDToken(...args),
-  getInput: (...args: unknown[]) => mockGetInput(...args),
+  getInput: jest.requireActual('@actions/core').getInput,
   setFailed: (...args: unknown[]) => mockSetFailed(...args),
   exportVariable: (...args: unknown[]) => mockExportVariable(...args),
 }))
@@ -57,6 +56,14 @@ import { run } from './action'
 describe('action', () => {
   const OLD_ENV = process.env
 
+  beforeAll(() => {
+    process.env['INPUT_CONFIG'] = JSON.stringify({
+      roleArn: 'dummy-role-arn',
+      mappingBucket: 'dummy-bucket',
+      mappingKey: 'dummy-key',
+    })
+  })
+
   beforeEach(() => {
     jest.resetModules()
     jest.spyOn(console, 'trace').mockImplementation(() => {
@@ -66,7 +73,6 @@ describe('action', () => {
   })
 
   afterEach(() => {
-    mockGetInput.mockReset()
     mockSetFailed.mockReset()
     mockExportVariable.mockReset()
     mockContext.mockReset()
@@ -174,9 +180,7 @@ describe('action', () => {
       },
     })
 
-    mockGetInput.mockImplementation((name: string) =>
-      name === 'name' ? 'mapping2' : undefined,
-    )
+    process.env['INPUT_NAME'] = 'mapping2'
 
     await run()
 
@@ -205,9 +209,7 @@ describe('action', () => {
       },
     })
 
-    mockGetInput.mockImplementation((name: string) =>
-      name === 'multi-account' ? 'true' : undefined,
-    )
+    process.env['INPUT_MULTI-ACCOUNT'] = 'true'
 
     await run()
 
@@ -269,9 +271,7 @@ describe('action', () => {
       },
     })
 
-    mockGetInput.mockImplementation((name: string) =>
-      name === 'account' ? 'test' : undefined,
-    )
+    process.env['INPUT_ACCOUNT'] = 'test'
 
     await run()
 
@@ -300,13 +300,8 @@ describe('action', () => {
       },
     })
 
-    mockGetInput.mockImplementation((name: string) =>
-      name === 'account'
-        ? 'test'
-        : name === 'multi-account'
-        ? 'true'
-        : undefined,
-    )
+    process.env['INPUT_ACCOUNT'] = 'test'
+    process.env['INPUT_MULTI-ACCOUNT'] = 'true'
 
     await run()
 
@@ -369,9 +364,7 @@ describe('action', () => {
       },
     })
 
-    mockGetInput.mockImplementation((name: string) =>
-      name === 'multi-account' ? 'true' : undefined,
-    )
+    process.env['INPUT_MULTI-ACCOUNT'] = 'true'
 
     await run()
 
@@ -408,9 +401,7 @@ describe('action', () => {
       },
     })
 
-    mockGetInput.mockImplementation((name: string) =>
-      name === 'account' ? 'prod' : undefined,
-    )
+    process.env['INPUT_ACCOUNT'] = 'prod'
 
     await run()
 

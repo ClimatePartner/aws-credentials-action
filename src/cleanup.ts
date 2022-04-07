@@ -10,5 +10,6 @@ if (require.main === module) {
   exportVariable('INPUT_MASK-AWS-ACCOUNT-ID', '')
   exportVariable('INPUT_ROLE-TO-ASSUME', '')
   exportVariable('INPUT_ROLE-DURATION-SECONDS', '')
+  exportVariable('INPUT_CONFIG', '')
   cleanup()
 }
