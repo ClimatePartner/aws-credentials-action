@@ -1,0 +1,27 @@
+name: Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-and-package:
+    name: Package distribution file
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: yarn install --frozen-lockfile
+        name: Install dependencies
+
+      - run: yarn all
+        name: Test and compile
+
+      - name: Commit
+        run: |
+          git status
+          # git config --global user.name "GitHub Actions"
+          # git add dist/
+          # git commit -m "chore: Update dist [skip ci]" || echo "No changes to commit"
+          # git push origin main
