@@ -15,6 +15,22 @@ interface Config {
   mappingKey: string
 }
 
+class RetriableWebIdentityCredentials extends AWS.WebIdentityCredentials {
+  refresh(callback: (err?: AWS.AWSError) => void): void {
+    const limit = 3
+    const tryRefresh = (tryNum = 0) => {
+      super.refresh(error => {
+        if (++tryNum < limit) {
+          setTimeout(() => tryRefresh(tryNum), 1000 * Math.pow(2, tryNum))
+        } else {
+          callback(error)
+        }
+      })
+    }
+    tryRefresh()
+  }
+}
+
 const getMappings = async (): Promise<RepositoriesMappings> => {
   const config: Config = JSON.parse(getInput('config', { required: true }))
 
@@ -26,7 +42,7 @@ const getMappings = async (): Promise<RepositoriesMappings> => {
 
   const webIdentityToken = await getIDToken('sts.amazonaws.com')
 
-  const credentials = new AWS.WebIdentityCredentials({
+  const credentials = new RetriableWebIdentityCredentials({
     RoleArn: config.roleArn,
     RoleSessionName: 'prepare-pipeline',
     WebIdentityToken: webIdentityToken,
