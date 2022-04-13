@@ -8,27 +8,12 @@ import * as AWS from 'aws-sdk'
 import wildcardMatch from 'wildcard-match'
 
 import { run as runConfigureAwsCredentials } from 'aws-actions-configure-aws-credentials'
+import { RetriableWebIdentityCredentials } from './RetriableWebIdentityCredentials'
 
 interface Config {
   roleArn: string
   mappingBucket: string
   mappingKey: string
-}
-
-class RetriableWebIdentityCredentials extends AWS.WebIdentityCredentials {
-  refresh(callback: (err?: AWS.AWSError) => void): void {
-    const limit = 3
-    const tryRefresh = (tryNum = 0) => {
-      super.refresh(error => {
-        if (++tryNum < limit) {
-          setTimeout(() => tryRefresh(tryNum), 1000 * Math.pow(2, tryNum))
-        } else {
-          callback(error)
-        }
-      })
-    }
-    tryRefresh()
-  }
 }
 
 const getMappings = async (): Promise<RepositoriesMappings> => {
