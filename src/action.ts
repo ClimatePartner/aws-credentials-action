@@ -76,7 +76,9 @@ const getRepositoryMapping = async (): Promise<RepositoryMapping> => {
     {},
   )
 
-  console.log('mappings:', JSON.stringify(repositoryMappings, null, 2))
+  console.log('context.ref:', context.ref)
+
+  console.log('mappings:', JSON.stringify(mappings, null, 2))
 
   let mappingName = getInput('name', { required: false })
 
