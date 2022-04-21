@@ -59,7 +59,14 @@ const getRepositoryMappings = async (): Promise<RepositoryMappings> => {
 }
 
 const getRepositoryMapping = async (): Promise<RepositoryMapping> => {
-  const mappings = Object.entries(await getRepositoryMappings()).reduce(
+  const repositoryMappings = await getRepositoryMappings()
+
+  console.log(
+    'repositoryMappings:',
+    JSON.stringify(repositoryMappings, null, 2),
+  )
+
+  const mappings = Object.entries(repositoryMappings).reduce(
     (acc, [mappingName, mapping]): RepositoryMappings =>
       mapping.refs.some(pattern =>
         wildcardMatch(pattern, { separator: false })(context.ref),
@@ -68,6 +75,8 @@ const getRepositoryMapping = async (): Promise<RepositoryMapping> => {
         : acc,
     {},
   )
+
+  console.log('mappings:', JSON.stringify(repositoryMappings, null, 2))
 
   let mappingName = getInput('name', { required: false })
 
