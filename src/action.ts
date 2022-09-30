@@ -2,6 +2,7 @@ import 'source-map-support/register'
 
 import { setFailed, getInput, getIDToken, exportVariable } from '@actions/core'
 import { context } from '@actions/github'
+import { setOutput } from '@actions/core'
 
 import * as AWS from 'aws-sdk'
 
@@ -69,8 +70,6 @@ const getRepositoryMapping = async (): Promise<RepositoryMapping> => {
     {},
   )
 
-  console.log('mappings', mappings)
-
   let mappingName = getInput('name', { required: false })
 
   if (!mappingName) {
@@ -86,8 +85,6 @@ const getRepositoryMapping = async (): Promise<RepositoryMapping> => {
   }
 
   const mapping = mappings[mappingName]
-
-  console.log('mapping', mapping)
 
   if (!mapping) {
     throw new Error(
@@ -150,12 +147,6 @@ const runAction = async (): Promise<void> => {
     throw Error('pull requests are not supported (yet)')
   }
 
-  // Reset existing AWS credentials
-  delete process.env['AWS_AVAILABLE_ROLES']
-  delete process.env['AWS_ACCESS_KEY_ID']
-  delete process.env['AWS_SECRET_ACCESS_KEY']
-  delete process.env['AWS_SESSION_TOKEN']
-
   const mapping = await getRepositoryMapping()
   const roleArn = getRoleArn(mapping)
 
@@ -168,6 +159,10 @@ const runAction = async (): Promise<void> => {
   process.env['INPUT_ROLE-DURATION-SECONDS'] = '3600'
 
   runConfigureAwsCredentials()
+
+  // The account id set by aws-actions/configure-aws-credentials is not correct
+  // when other AWS credentials are present in the environment
+  setOutput('aws-account-id', roleArn.split(':')[4])
 }
 
 export const run = async (): Promise<void> =>
