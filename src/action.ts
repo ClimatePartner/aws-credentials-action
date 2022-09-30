@@ -150,6 +150,12 @@ const runAction = async (): Promise<void> => {
     throw Error('pull requests are not supported (yet)')
   }
 
+  // Reset existing AWS credentials
+  delete process.env['AWS_AVAILABLE_ROLES']
+  delete process.env['AWS_ACCESS_KEY_ID']
+  delete process.env['AWS_SECRET_ACCESS_KEY']
+  delete process.env['AWS_SESSION_TOKEN']
+
   const mapping = await getRepositoryMapping()
   const roleArn = getRoleArn(mapping)
 
