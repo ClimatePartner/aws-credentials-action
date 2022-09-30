@@ -158,7 +158,7 @@ const runAction = async (): Promise<void> => {
   process.env['INPUT_ROLE-TO-ASSUME'] = roleArn
   process.env['INPUT_ROLE-DURATION-SECONDS'] = '3600'
 
-  runConfigureAwsCredentials()
+  await runConfigureAwsCredentials()
 
   // The account id set by aws-actions/configure-aws-credentials is not correct
   // when other AWS credentials are present in the environment
