@@ -69,6 +69,8 @@ const getRepositoryMapping = async (): Promise<RepositoryMapping> => {
     {},
   )
 
+  console.log('mappings', mappings)
+
   let mappingName = getInput('name', { required: false })
 
   if (!mappingName) {
@@ -84,6 +86,9 @@ const getRepositoryMapping = async (): Promise<RepositoryMapping> => {
   }
 
   const mapping = mappings[mappingName]
+
+  console.log('mapping', mapping)
+
   if (!mapping) {
     throw new Error(
       `Mapping with name '${mappingName}' not found matching to ref ${context.ref}`,
