@@ -30,11 +30,14 @@ jest.mock('aws-sdk', () => ({
   })),
 }))
 
+const mockSetOutput = jest.fn<void, [string, string]>()
+
 jest.mock('@actions/core', () => ({
   getIDToken: (...args: unknown[]) => mockGetIDToken(...args),
   getInput: jest.requireActual('@actions/core').getInput,
   setFailed: (...args: unknown[]) => mockSetFailed(...args),
   exportVariable: (...args: unknown[]) => mockExportVariable(...args),
+  setOutput: (key: string, value: string) => mockSetOutput(key, value),
 }))
 
 jest.mock('@actions/github', () => ({
