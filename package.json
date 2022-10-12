@@ -26,7 +26,7 @@
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
-    "aws-actions-configure-aws-credentials": "https://github.com/aws-actions/configure-aws-credentials.git#v1.7.0",
+    "aws-actions-configure-aws-credentials": "https://github.com/aws-actions/configure-aws-credentials.git#v1.6.1",
     "aws-sdk": "^2.1231.0",
     "source-map-support": "^0.5.21",
     "wildcard-match": "^5.1.2"
