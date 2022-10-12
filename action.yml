@@ -19,6 +19,6 @@ outputs:
   aws-account-id:
     description: "The AWS account ID for the provided credential"
 runs:
-  using: "node12"
+  using: "node16"
   main: "dist/index.js"
   post: "dist/cleanup.js"
