@@ -14,7 +14,7 @@ runs:
   using: "composite"
   steps:
     - name: Notify dedicated teams channel
-      uses: dragos-cojocari/ms-teams-notification@v1.0.0
+      uses: ClimatePartner/ms-teams-card-action@main
       with:
         github-token: ${{ github.token }}
         ms-teams-webhook-uri: ${{ inputs.msteams-channel-webhook }}
