@@ -1,7 +1,10 @@
-/*!
- * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
- *
- * Copyright (c) 2014-2017, Jon Schlinkert.
- * Released under the MIT License.
- */
-/*! http://mths.be/fromcodepoint v0.1.0 by @mathias */
+Bundled license information:
+
+undici/lib/fetch/body.js:
+  /*! formdata-polyfill. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
+
+undici/lib/websocket/frame.js:
+  /*! ws. MIT License. Einar Otto Stangvik <einaros@gmail.com> */
+
+sax/lib/sax.js:
+  /*! http://mths.be/fromcodepoint v0.1.0 by @mathias */

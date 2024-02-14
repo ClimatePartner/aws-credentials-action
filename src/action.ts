@@ -1,5 +1,3 @@
-import 'source-map-support/register'
-
 import { setFailed, getInput, getIDToken, exportVariable } from '@actions/core'
 import { context } from '@actions/github'
 import { setOutput } from '@actions/core'

@@ -1,5 +1,3 @@
-import 'source-map-support/register'
-
 import cleanup from 'aws-actions-configure-aws-credentials/cleanup'
 
 import { exportVariable } from '@actions/core'
