@@ -8,7 +8,7 @@ jobs:
     name: Package distribution file
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - run: yarn install --frozen-lockfile
         name: Install dependencies

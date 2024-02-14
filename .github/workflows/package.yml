@@ -10,7 +10,7 @@ jobs:
     name: Package distribution file
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - run: yarn install --frozen-lockfile
         name: Install dependencies
@@ -39,7 +39,7 @@ jobs:
     if: ${{ failure() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') }}
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Notify
         uses: ./.github/actions/notifyonfailure
