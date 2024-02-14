@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "build": "esbuild src/index.ts src/cleanup.ts --bundle --platform=node --target=node16 --outdir=dist --sourcemap=inline --legal-comments=external --minify",
+    "build": "esbuild src/index.ts src/cleanup.ts --bundle --platform=node --target=node20 --outdir=dist --sourcemap=inline --legal-comments=external --minify",
     "test": "jest --runInBand",
     "test:dev": "jest --runInBand --watchAll",
     "all": "yarn -s run lint && yarn -s run test && yarn -s run build"
