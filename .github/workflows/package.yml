@@ -12,10 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: yarn install --frozen-lockfile
-        name: Install dependencies
+      - uses: ./.github/actions/install-dependencies
 
-      - run: yarn all
+      - run: pnpm all
         name: Test and compile
 
       - name: Commit
@@ -30,11 +29,11 @@ jobs:
   notifyonfailure:
     name: NotifyOnFailure
     runs-on: ubuntu-latest
-    
-    # Replace below placeholders job1 and job2
-    needs: [ test-and-package ]
 
-    # notifyonfailure job is executed if one of the jobs specified in the needs array fails 
+    # Replace below placeholders job1 and job2
+    needs: [test-and-package]
+
+    # notifyonfailure job is executed if one of the jobs specified in the needs array fails
     # and we are on the master or main branch
     if: ${{ failure() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') }}
     steps:

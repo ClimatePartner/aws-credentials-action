@@ -3,11 +3,11 @@ import * as AWS from 'aws-sdk'
 
 describe('test retry', () => {
   beforeAll(() => {
-    jest.resetModules()
+    vi.resetModules()
   })
 
   it('retry 3 times', async () => {
-    AWS.WebIdentityCredentials.prototype.refresh = jest
+    AWS.WebIdentityCredentials.prototype.refresh = vi
       .fn()
       .mockImplementation(callback => {
         callback('error')

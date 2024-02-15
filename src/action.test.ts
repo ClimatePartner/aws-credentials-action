@@ -1,23 +1,23 @@
-const mockRunConfigureAwsCredentials = jest.fn()
+const mockRunConfigureAwsCredentials = vi.fn()
 
-const mockGetIDToken = jest.fn().mockResolvedValue('my-web-identity-token')
-const mockSetFailed = jest.fn()
-const mockExportVariable = jest.fn()
+const mockGetIDToken = vi.fn().mockResolvedValue('my-web-identity-token')
+const mockSetFailed = vi.fn()
+const mockExportVariable = vi.fn()
 
-const mockContext = jest.fn()
+const mockContext = vi.fn()
 
-const mockMappingObjectContent = jest.fn()
+const mockMappingObjectContent = vi.fn()
 
-jest.mock('aws-actions-configure-aws-credentials', () => ({
+vi.mock('aws-actions-configure-aws-credentials', () => ({
   run: () => mockRunConfigureAwsCredentials(),
 }))
 
-jest.mock('aws-sdk', () => ({
+vi.mock('aws-sdk', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  WebIdentityCredentials: jest.fn().mockImplementation(() => {
+  WebIdentityCredentials: vi.fn().mockImplementation(() => {
     /* void */
   }),
-  S3: jest.fn().mockImplementation(() => ({
+  S3: vi.fn().mockImplementation(() => ({
     getObject(...args: unknown[]) {
       return {
         promise() {
@@ -30,17 +30,19 @@ jest.mock('aws-sdk', () => ({
   })),
 }))
 
-const mockSetOutput = jest.fn<void, [string, string]>()
+const mockSetOutput = vi.fn()
 
-jest.mock('@actions/core', () => ({
+vi.mock('@actions/core', async () => ({
   getIDToken: (...args: unknown[]) => mockGetIDToken(...args),
-  getInput: jest.requireActual('@actions/core').getInput,
+  getInput: await vi
+    .importActual('@actions/core')
+    .then(({ getInput }) => getInput),
   setFailed: (...args: unknown[]) => mockSetFailed(...args),
   exportVariable: (...args: unknown[]) => mockExportVariable(...args),
   setOutput: (key: string, value: string) => mockSetOutput(key, value),
 }))
 
-jest.mock('@actions/github', () => ({
+vi.mock('@actions/github', () => ({
   get context() {
     return mockContext()
   },
@@ -68,8 +70,8 @@ describe('action', () => {
   })
 
   beforeEach(() => {
-    jest.resetModules()
-    jest.spyOn(console, 'trace').mockImplementation(() => {
+    vi.resetModules()
+    vi.spyOn(console, 'trace').mockImplementation(() => {
       /* void */
     })
     process.env = { ...OLD_ENV }
