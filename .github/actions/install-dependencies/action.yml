@@ -1,0 +1,19 @@
+name: 'Install dependencies with custom registry'
+description: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install pnpm
+      shell: bash
+      run: npm install -g pnpm@8
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install

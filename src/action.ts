@@ -1,6 +1,12 @@
-import { setFailed, getInput, getIDToken, exportVariable } from '@actions/core'
+import {
+  setFailed,
+  getInput,
+  getIDToken,
+  exportVariable,
+  setOutput,
+} from '@actions/core'
+
 import { context } from '@actions/github'
-import { setOutput } from '@actions/core'
 
 import * as AWS from 'aws-sdk'
 

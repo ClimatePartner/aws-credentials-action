@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["vitest/globals"],
     "target": "es2015",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
