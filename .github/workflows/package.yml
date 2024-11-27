@@ -24,25 +24,3 @@ jobs:
           git add dist/
           git commit -m "chore: Update dist [skip ci]" || echo "No changes to commit"
           git push origin main
-
-  # PLT-450
-  notifyonfailure:
-    name: NotifyOnFailure
-    runs-on: ubuntu-latest
-
-    # Replace below placeholders job1 and job2
-    needs: [test-and-package]
-
-    # notifyonfailure job is executed if one of the jobs specified in the needs array fails
-    # and we are on the master or main branch
-    if: ${{ failure() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') }}
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4
-
-      - name: Notify
-        uses: ./.github/actions/notifyonfailure
-        with:
-          github-workflow: ${{ github.workflow }}
-          msteams-channel-webhook: ${{ secrets.DS_PLATFORM_TEAM_MSTEAMS_WEBHOOK }}
-          github-repository: ${{ github.repository }}
